@@ -1,7 +1,9 @@
+import { Manage } from "../store/Allfunctions";
 import { Alert } from "./Alert";
 import { Inputs } from "./Inputs";
-import { useRef } from "react";
-export const Task = ({ onAdd, onCancel }) => {
+import { useRef, useContext } from "react";
+export const Task = () => {
+  const Project = useContext(Manage);
   const alert = useRef();
   const newTitle = useRef();
   const newDescription = useRef();
@@ -18,7 +20,7 @@ export const Task = ({ onAdd, onCancel }) => {
       alert.current.open();
       return;
     }
-    onAdd({
+    Project.AddNewProject({
       Title: titleAdded,
       Description: DescriptionAdded,
       DueDate: dueDateAdded,
@@ -40,7 +42,7 @@ export const Task = ({ onAdd, onCancel }) => {
           <li>
             <button
               className="text-stone-800 hover:text-stone-950"
-              onClick={onCancel}
+              onClick={Project.CancelProject}
             >
               Cancel
             </button>
