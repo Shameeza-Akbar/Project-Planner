@@ -1,11 +1,8 @@
+import { useContext } from "react";
+import { Manage } from "../store/Allfunctions";
 import { SubTasks } from "./subTasks";
-export const SelectedProject = ({
-  project,
-  onDelete,
-  onAddTask,
-  onADeleteTask,
-  tasks,
-}) => {
+export const SelectedProject = ({ project }) => {
+  const Project = useContext(Manage);
   const formattedDate = new Date(project.DueDate).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
@@ -20,7 +17,7 @@ export const SelectedProject = ({
           </h1>
           <button
             className="text-stone-600 hover:text-stone-950"
-            onClick={onDelete}
+            onClick={Project.DeleteProject}
           >
             Delete
           </button>
@@ -30,11 +27,7 @@ export const SelectedProject = ({
           {project.Description}
         </p>
       </header>
-      <SubTasks
-        onAdd={onAddTask}
-        onDelete={onADeleteTask}
-        task={tasks}
-      ></SubTasks>
+      <SubTasks />
     </div>
   );
 };
