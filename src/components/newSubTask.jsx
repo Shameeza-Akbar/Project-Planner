@@ -1,5 +1,8 @@
-import { useState } from "react";
-export const NewSubTask = ({ Add }) => {
+import { Manage } from "../store/Allfunctions";
+import { useState, useContext } from "react";
+export const NewSubTask = () => {
+  const Project = useContext(Manage);
+
   const [enteredTask, setEnteredTask] = useState("");
   function handleChange(event) {
     setEnteredTask(event.target.value);
@@ -9,7 +12,7 @@ export const NewSubTask = ({ Add }) => {
       return;
     }
     setEnteredTask("");
-    Add(enteredTask);
+    Project.AddTask(enteredTask);
   }
   return (
     <div className="flex items-center gap-4">
