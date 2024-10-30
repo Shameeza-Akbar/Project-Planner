@@ -3,6 +3,7 @@ import { StartingPage } from "./Components/StartingPage";
 import { Sidebar } from "./Components/Sidebar";
 import { Task } from "./Components/Task";
 import { SelectedProject } from "./Components/selectedProject";
+import { Manage } from "./store/Allfunctions";
 function App() {
   const [displayPage, setDisplayPage] = useState({
     id: "empty",
@@ -28,19 +29,11 @@ function App() {
       };
     });
   }
-  let display = (
-    <SelectedProject
-      project={projectSelected}
-      onDelete={handleDelete}
-      onAddTask={handleAddTask}
-      onADeleteTask={handleDeleteTask}
-      tasks={displayPage.tasks}
-    ></SelectedProject>
-  );
+  let display = <SelectedProject project={projectSelected} />;
   if (displayPage.id === "empty") {
-    display = <StartingPage onSet={newProject}></StartingPage>;
+    display = <StartingPage />;
   } else if (displayPage.id === "new") {
-    display = <Task onAdd={newProjectAdded} onCancel={projectCancel}></Task>;
+    display = <Task />;
   }
   function newProjectAdded(arr) {
     setDisplayPage((prevState) => {
@@ -90,16 +83,25 @@ function App() {
       };
     });
   }
+  const CtxValue = {
+    id: displayPage.id,
+    projects: displayPage.projects,
+    tasks: displayPage.tasks,
+    AddProject: newProject,
+    SelectProject: handleProjectSelection,
+    DeleteProject: handleDelete,
+    AddTask: handleAddTask,
+    DeleteTask: handleDeleteTask,
+    CancelProject: projectCancel,
+    AddNewProject: newProjectAdded,
+  };
   return (
-    <main className="h-screen my-8 flex gap-8">
-      <Sidebar
-        onSet={newProject}
-        list={displayPage.projects}
-        onSelect={handleProjectSelection}
-        selectedProjectId={displayPage.id}
-      ></Sidebar>
-      {display}
-    </main>
+    <Manage.Provider value={CtxValue}>
+      <main className="h-screen my-8 flex gap-8">
+        <Sidebar />
+        {display}
+      </main>
+    </Manage.Provider>
   );
 }
 
